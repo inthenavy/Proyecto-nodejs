@@ -27,15 +27,16 @@
         <div class="container my-5 text-center">
             <h2 class="fs-1">Productos</h2>
             <div class="row">
+                {{#each productos}}
                 <div class="col-md-3">
                     <div class="product-item">
                         <div class="product-thumb">
-                            <img class="img-fluid" src="uploads/x1_carbon_4_3.jpg-1654801811279.jpg"
+                            <img class="img-fluid" src={{thumbnail}}
                                 alt="product-img" />
                             <div class="preview-meta">
                                 <ul>
                                     <li>
-                                        <span data-bs-toggle="modal" data-bs-target="#product-modal-1">
+                                        <span data-bs-toggle="modal" data-bs-target="#product-modal-{{id}}">
                                             <i class="bi bi-search"></i>
                                         </span>
                                     </li>
@@ -44,14 +45,14 @@
                             </div>
                         </div>
                         <div class="product-content">
-                            <h4><a href="">Lenovo X200</a></h4>
-                            <p class="price">$ 319.062,15</p>
+                            <h4><a href="">{{title}}</a></h4>
+                            <p class="price">u$s{{price}}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Modal -->
-                <div class="modal product-modal fade" id="product-modal-1" data-bs-backdrop="static"
+                <div class="modal product-modal fade" id="product-modal-{{id}}" data-bs-backdrop="static"
                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="product-modal" aria-hidden="true">
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i
                             class="bi bi-x"></i></button>
@@ -61,24 +62,26 @@
                                 <div class="row">
                                     <div class="col-md-8 col-sm-6 col-xs-12">
                                         <div class="modal-image">
-                                            <img class="img-fluid" src="uploads/x1_carbon_4_3.jpg-1654801811279.jpg"
+                                            <img class="img-fluid" src={{thumbnail}}
                                                 alt="product-img" />
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
                                         <div class="product-short-details">
-                                            <h2 class="product-title">Lenovo X200</h2>
-                                            <p class="product-price">$ 319.062,15</p>
+                                            <h2 class="product-title">{{title}}</h2>
+                                            <p class="product-price">u$s{{price}}</p>
                                             <div class="product-short-description">
-                                                <ul>
+                                                {{description}}
+                                                <!--<ul>
                                                     <li> i7 </li>
                                                     <li> 11gen </li>
                                                     <li> 256gb SSD </li>
                                                     <li> 16 gb RAM </li>
-                                                </ul>
+                                                </ul>-->
+
                                             </div>
 
-                                            <a href="detalle-producto.html" class="btn btn-transparent d-block mb-3">Ver detalles
+                                            <a href="/detalle-producto/{{id}}" class="btn btn-transparent d-block mb-3">Ver detalles
                                                 del producto</a>
 
                                             <a href="mailto:"
@@ -91,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-
+                {{/each}}
             </div>
         </div>
     </section>
