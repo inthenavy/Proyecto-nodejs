@@ -1,11 +1,18 @@
-const productos = require('../data/productos.json');
+//const productos = require('../data/productos.json');
+require('dotenv').config()
+const db = require('../models/connection.js')
 
 const indexGET = (req, res) => {
-    //(indica el nombre del archivo hbs, indica el objeto)
-    res.render('index',{
+
+    let sql = "SELECT * FROM productos WHERE destacado = 1"
+    db.query(sql, (err, data) => {
+        if (err) throw err
+            res.render('index', {
         titulo: "Mi página web", 
-        productos: productos[0].data
+        productos: data
     })
+    })
+
 }
 
 const comoComprarGET = (req, res) => {
