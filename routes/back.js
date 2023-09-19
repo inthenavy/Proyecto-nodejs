@@ -3,6 +3,7 @@ const router = express.Router();
 const {
     adminGET,
     agregarProductoGET,
+    agregarProductoPOST,
     editarGET,
     loginGET,
 } = require('../controllers/back.js');
@@ -11,6 +12,7 @@ const {
 router.get('/admin', adminGET)
   
   router.get('/agregar-producto', agregarProductoGET)
+  router.post('/agregar-producto', agregarProductoPOST)
   
   router.get('/editar-producto', editarGET)
   
