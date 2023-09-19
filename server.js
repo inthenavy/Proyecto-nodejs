@@ -8,6 +8,12 @@ require('./views/helpers/helpers.js')
 
 const port = 3000
 
+//middlewares para tomar los datos del formulario
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: false
+}));
+
 app.set('view engine', 'hbs'); //indica que usaremos la plantilla "handlebars"
 app.set('views', [
     path.join('./views/front'),

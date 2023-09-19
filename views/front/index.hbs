@@ -13,7 +13,7 @@
     {{> header}}
 
     <div class="px-4 py-5 text-center bg-primary bg-gradient text-light">
-        <h1 class="display-5 fw-bold ">Mi emprendimiento</h1>
+        <h1 class="display-5 fw-bold ">NAVYTECH</h1>
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4 text-light">Descripcion corta de lo que trata el negocio</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -26,6 +26,7 @@
     <section class="products section">
         <div class="container my-5 text-center">
             <h2 class="fs-1">Productos</h2>
+
             <div class="row">
                 {{#each productos}}
                 <div class="col-md-3">
@@ -73,11 +74,15 @@
                                             <div class="product-short-description">
                                                 {{descripcion}}
                                                 <!--ESTO FUNCIONA, TAL VEZ PARA EL FUTURO
-                                                {{each product.images}}
+                                                {{#each product.images}}
                                                     <img src={{this}} alt="">
                                                 {{/each}}
                                                 -->
-                                                {{caracteristicas}}
+                                            
+                                                {{#listado caracteristicas}}
+                                                    {{this}}
+                                                {{/listado}}
+                                                
                                                 <!--<ul>
                                                     <li> i7 </li>
                                                     <li> 11gen </li>

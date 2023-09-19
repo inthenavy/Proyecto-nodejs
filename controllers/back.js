@@ -2,6 +2,7 @@
 require('dotenv').config()
 const db = require('../models/connection.js')
 
+
 const adminGET = (req, res) => {
   
   let sql = "SELECT * FROM productos"
@@ -17,12 +18,14 @@ const adminGET = (req, res) => {
 const agregarProductoGET = (req, res) => {
     console.log("Estás en agregar producto");
     res.render('agregar-producto',{
+      titulo: "Agregar producto"
     })
   }
 
 const editarGET = (req, res) => {
     console.log("Estás en editar-producto");
     res.render('editar-producto',{
+      titulo: "Editar producto",
     })
   }
 
