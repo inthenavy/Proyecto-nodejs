@@ -4,8 +4,11 @@ const {
     adminGET,
     agregarProductoGET,
     agregarProductoPOST,
-    editarGET,
+    editarProductoGET,
+    editarProductoPOST,
+    borrarProductoGET,
     loginGET,
+    loginPOST,
 } = require('../controllers/back.js');
 
 
@@ -14,8 +17,12 @@ router.get('/admin', adminGET)
   router.get('/agregar-producto', agregarProductoGET)
   router.post('/agregar-producto', agregarProductoPOST)
   
-  router.get('/editar-producto', editarGET)
+  router.get('/editar-producto/:id', editarProductoGET)
+  router.post('/editar-producto/:id', editarProductoPOST)
+
+  router.get('/borrar-producto/:id', borrarProductoGET)
   
   router.get('/login', loginGET)
-
+  router.post('/login', loginPOST)
+  
   module.exports = router
