@@ -102,12 +102,12 @@ footer .bi:hover {
 }
 #imagenCargada.editar:hover::after {
     display: block;
-    background-color: rgba(255,255,255);
+    background-color: #00aced;
 }
 #imagenCargada.editar::after {
 	position: absolute;
 	content: "Editar";
-	display: none;
+	display:flex;
 	top: calc(50% - 22px);
 	left: calc(50% - 36px);
 	width: 75px;

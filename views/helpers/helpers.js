@@ -6,9 +6,9 @@ let dolar;
 axios.get("https://www.dolarsi.com/api/api.php?type=valoresprincipales")
     .then( resultado => {
         dolar = resultado.data[4].casa.venta;
-        dolar = dolar.replace(/,/g,".");
+        dolar = dolar.replace(/,/g,".")
         dolar = parseFloat(dolar)
-        console.log(dolar);
+        console.log(dolar)
     })
     .catch(err => {console.log(err)})
 

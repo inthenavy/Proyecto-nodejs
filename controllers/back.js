@@ -1,5 +1,11 @@
 //const productos = require('../data/productos.json');
 require('dotenv').config()
+const {
+  multer,
+      almacenamiento,
+    maxSizeMB,
+    upload
+  } = require('../views/helpers/multer')
 const db = require('../models/connection.js')
 
 
@@ -33,17 +39,42 @@ const agregarProductoGET = (req, res) => {
   }
 
   const agregarProductoPOST = (req, res) => {
-    const info = req.body
-    const sql = "INSERT INTO productos SET ?"
-    db.query(sql, info, (err, data) => {
-      if (err) throw err
-      console.log("Producto agregado")
-      res.render("agregar-producto", {
-        mensaje: "Producto agregado",
-        titulo: "Agregar producto"
+
+
+    upload(req, res, err => {
+      if (err instanceof multer.MulterError) {
+        // Error de Multer al subir imagen
+        if (err.code === "LIMIT_FILE_SIZE") {
+          return res.status(400).render('agregar-producto', {
+            mensaje: `Imagen muy grande, por favor achicar a ${maxSizeMB}`,
+            clase: "danger"
+          });
+        }
+        return res.status(400).render('agregar-producto', { mensaje: err.code });
+      } else if (err) {
+        // Ocurrió un error desconocido al subir la imagen
+        return res.status(400).render('agregar-producto',
+          { mensaje: `Ocurrió un error desconocido ${err}` }
+        );
+      }
+		// Si no hubo error entonces...
+		    const detalleProducto = req.body;
+		    console.log("AGREGAR-PRODUCTO REQ.FILE", req.file)
+		    const nombreImagen = req.file.filename;
+		    detalleProducto.rutaimg = nombreImagen
+
+        let sql = 'INSERT INTO productos SET ?';
+        db.query(sql, detalleProducto, (err, result) => {
+          if (err) throw err;
+          res.render("agregar-producto", {
+          mensaje: "Producto agregado correctamente",
+          titulo: 'Agregar producto',
+          clase: "success"
       })
-    })
-  }
+        })
+      })
+    }
+      
 
 const editarProductoGET = (req, res) => {
 
@@ -71,30 +102,91 @@ const editarProductoGET = (req, res) => {
 
   const editarProductoPOST = (req, res) => {
 
-    const id = req.params.id
-    const producto = req.body
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        // Error de Multer al subir imagen
+        if (err.code === "LIMIT_FILE_SIZE") {
+          return res.status(400).render('agregar-producto', {
+            mensaje: `Imagen muy grande, por favor achicar a ${maxSizeMB}`,
+            clase: "danger"
+          });
+        }
+        return res.status(400).render('agregar-producto', { mensaje: err.code });
+      } else if (err) {
+        // Ocurrió un error desconocido al subir la imagen
+        return res.status(400).render('agregar-producto',
+          { mensaje: `Ocurrió un error desconocido ${err}` }
+        );
+      }
 
-    const sql = "UPDATE productos SET ? WHERE id = ?"
+		const id = req.params.id;
+		const detalleProducto = req.body;
 
-    db.query(sql, [producto, id], (err, data) => {
-      if (err) throw err
-      console.log("ACTUALIZAR DATA", data)
-      console.log(`${data.affectedRows} registro actualizado`);
-      res.redirect('/admin');
-    })
-  }
+		if (req.hasOwnProperty("file")) {
+
+			const nombreImagen = req.file.filename;
+			detalleProducto.rutaimg = nombreImagen
+
+			// Se procede a borrar la imagen del servidor
+			const borrarImagen = 'SELECT rutaimg FROM productos WHERE id = ?';
+			/* ej: [ { rutaimg: lenovo-43242342342.jpg } ]*/
+
+			db.query(borrarImagen, [id], function (err, data) {
+				if (err) throw err;
+
+				fs.unlink(`public/uploads/${data[0].rutaimg}`, (err) => {
+					if (err) throw err;
+
+					const sql = `UPDATE productos SET ? WHERE id= ?`;
+
+					db.query(sql, [detalleProducto, id], function (err, data) {
+						if (err) throw err;
+						console.log(data.affectedRows + " registro(s) actualizado(s)");
+					});
+				});
+
+				res.redirect('/admin');
+
+			})
+
+
+		} else {
+
+			const sql = `UPDATE productos SET ? WHERE id= ?`;
+
+			db.query(sql, [detalleProducto, id], function (err, data) {
+				if (err) throw err;
+				console.log(data.affectedRows + " registro(s) actualizado(s)");
+				res.redirect('/admin');
+			});
+
+		}
+
+	})
+
+}
 
   const borrarProductoGET = (req, res) => {
 
     const id = req.params.id
 
-    const sql = "DELETE FROM productos WHERE id = ?"
-    db.query(sql, id, (err, data) => {
-      if (err) throw err
-      console.log(data.affectedRows + "registro borrado");
-      res.redirect('/admin');
-    })
-  }
+    const borrarImagen = 'SELECT rutaimg FROM productos WHERE id = ?';
+    
+    db.query(borrarImagen, [id], function (err, data) {
+      fs.unlink(`public/uploads/${data[0].rutaimg}`, (err) => {
+        if (err) throw err;
+
+        const sql = "DELETE FROM productos WHERE id = ?"
+
+        db.query(sql, [id], function (err, data) {
+          if (err) throw err
+          console.log(data.affectedRows + " registro borrado");
+          res.redirect('/admin');
+    });
+  });
+      })
+    }
+
 
   const loginGET = (req, res) => {
     console.log("Estás en login");

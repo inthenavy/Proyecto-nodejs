@@ -30,11 +30,12 @@
                 </thead>
 
                 <tbody id="admin-productos">
+                    {{#if productos}}
                     {{#each productos}}
                     <tr>
                         <th scope="row">{{id}}</th>
                         <td>{{nombre}}</td>
-                        <td><img src="{{rutaimg}}" alt="imagen de {{nombre}}">
+                        <td><img src="/uploads/{{rutaimg}}" alt="imagen de {{nombre}}">
                         </td>
                         <td class="descripcion">
                             <div>{{descripcion}}</div>
@@ -64,11 +65,15 @@
                         </td>
                     </tr>
                     {{/each}}
-
+                    {{else}}
+                    <tr>
+                        <td>No hay productos cargados actualmente</td>
+                    </tr>
+                    {{/if}}
                 </tbody>
 
             </table>
-            <a href="agregar-producto.html" class="btn btn-info">Agregar producto</a>
+            <a href="/agregar-producto" class="btn btn-info">Agregar producto</a>
 
         </div>
 

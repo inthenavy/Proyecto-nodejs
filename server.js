@@ -6,8 +6,7 @@ const rutasFront = require('./routes/front.js');
 const session = require('express-session');
 const rutasBack = require('./routes/back.js');
 require('./views/helpers/helpers.js')
-
-const port = 3000
+const port = process.env.PORT || 3000
 
 //sesiones mediante cookies
 app.use(session({

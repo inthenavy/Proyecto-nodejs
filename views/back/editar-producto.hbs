@@ -39,7 +39,7 @@
                             </div>
 
                              <div class="mb-3 col-md-1">
-                                <label for="destacado" class="form-label small">D</label>
+                                <label for="destacado" class="form-label small">Destacado</label>
                                 {{#if producto.destacado}}
                                 <input class="form-check-input" type="checkbox" id="destacado"
                                     name="destacado" value= "1" checked>
@@ -51,10 +51,16 @@
                         </div>
 
 
-                        <div class="mb-3 col-12 editar" id="">
-                            <label for="rutaimg" class="form-label">URL Imagen</label>
-                            <img src="/uploads/x1_carbon_4_3.jpg-1654801811279.jpg" alt="" class="img-fluid">
-                            <input class="form-control" type="text" id="rutaimg" name="rutaimg" value={{producto.rutaimg}} required>
+                        <div class="row">
+                            <div class="mb-3 col-12 editar" id="imagenCargada">
+                            
+                                <label for="rutaimg" class="form-label">Imagen</label>
+
+                                <img src="/uploads/{{producto.rutaimg}}" alt="" class="img-fluid">
+
+                                <input class="form-control" type="file" id="rutaimg" name="rutaimg" style="display:none" accept=".png,.jpg,.jpeg">
+                            </div>
+            
                         </div>
 
 
@@ -63,7 +69,7 @@
                     <div class="col-12 col-md-6 col-lg-8">
                         <div class="row">
                             <div class="mb-3 col-8">
-                                <label for="descripcion" class="form-label">Descripcion</label>
+                                <label for="descripcion" class="form-label">Descripción</label>
                                 <textarea class="form-control" id="descripcion" rows="16"
                                  name="descripcion">{{producto.descripcion}}</textarea>
                             </div>
@@ -80,7 +86,7 @@
 
 
 
-                <button type="submit" class="btn btn-info">editar</button>
+                <button type="submit" class="btn btn-info">Editar</button>
                 <a href="/admin" class="btn btn-info">Volver al listado de productos</a>
             </form>
         </div>
@@ -100,7 +106,7 @@
     <script>
         // https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
         const contenedor = document.querySelector("#imagenCargada"),
-            elInput = document.querySelector("#imagenDeProducto");
+            elInput = document.querySelector("#rutaimg");
 
         contenedor.addEventListener("click", function (e) {
             if (elInput) {

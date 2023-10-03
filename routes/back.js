@@ -12,7 +12,7 @@ const {
 } = require('../controllers/back.js');
 
 
-router.get('/admin', adminGET)
+  router.get('/admin', adminGET)
   
   router.get('/agregar-producto', agregarProductoGET)
   router.post('/agregar-producto', agregarProductoPOST)
